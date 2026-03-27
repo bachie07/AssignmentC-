@@ -19,4 +19,5 @@ public:
 
     virtual std::string str() const = 0;
 
+
 };
