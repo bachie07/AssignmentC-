@@ -4,6 +4,22 @@
 #include <string>
 #include <vector>
 
+class Game;
+class Player;
+
+enum CardType {
+
+    Cannon,
+    Chest,
+    Key,
+    Anchor,
+    Sword,
+    Hook,
+    Oracle,
+    Map,
+    Mermaid,
+    Kraken
+};
 
 class Card {
 
@@ -11,8 +27,11 @@ class Card {
 public:
     std::string suit;
     int value;
+    CardType type;
 
-    Card(std::string suit, int value);
+
+    Card(std::string suit, int value, CardType type);
+
 
     virtual std::string str() const = 0;
 
@@ -21,8 +40,6 @@ public:
 
 
     virtual ~Card() {}
-
-
 
 
 };
