@@ -38,15 +38,21 @@ void Game::controlTurn() {
 
 Card* Game::drawCard() {
 
+    return nullptr;
+
 }
 
 bool Game::askDrawAgain() {
+
+    return false;
 
 }
 
 void Game::switchPlayer() {
 
 }
+
+Game::~Game(){}
 
 
 

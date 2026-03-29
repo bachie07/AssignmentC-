@@ -7,10 +7,16 @@ Player::Player(std::string name) :
 
 
 
-bool Player::playCard(Card* card, Game& game) {}
+bool Player::playCard(Card* card, Game& game) {
+
+    return true;
+
+}
 
 
 bool Player::isBust() {
+
+    return true;
 }
 
 void Player::moveCardToBank() {

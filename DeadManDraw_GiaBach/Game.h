@@ -1,22 +1,28 @@
 #pragma once
 #include "Player.h"
+#include "Card.h"
 
 
 
 class Game {
 
 
-public: 
+private: 
 
-    CardCollection deck;
+    CardCollection _deck;
 
-    CardCollection discardPile;
+    CardCollection _discardPile;
 
     int _currentTurn;
 
     int _currentRound;
 
     Player* _currentPlayer;
+
+    Player* _players[2];
+
+
+public:
 
     Game();
 
@@ -38,6 +44,6 @@ public:
 
     void switchPlayer();
 
-    virtual ~Game() {};
+    ~Game();
 
 };
