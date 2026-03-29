@@ -12,7 +12,7 @@ public:
 
     CardCollection _PlayArea;
 
-    CardCollection _bank;
+    CardCollection _Bank;
 
     Player(std::string name);
 
@@ -30,9 +30,6 @@ public:
     const std::string getName() const; 
 
     virtual ~Player() {}
-
-
-    
 
 
 };
