@@ -9,5 +9,6 @@ Card::Card(std::string suit, int value, CardType type)  :
 const CardType& Card::type() const { 
 
     return _type;
+
 }
 

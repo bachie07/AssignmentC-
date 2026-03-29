@@ -6,7 +6,7 @@ class Player {
 
 public:
 
-    std::string name; 
+    std::string playerName; 
 
     int score;
 
@@ -25,9 +25,9 @@ public:
 
     void print();
 
-    const int getScore() const;
+    int getScore() const;
     
-    const std::string getName() const; 
+    std::string getName() const; 
 
     virtual ~Player() {}
 
