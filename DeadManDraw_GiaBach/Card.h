@@ -46,3 +46,7 @@ public:
 
 
 };
+
+typedef std::vector<Card*> CardCollection; 
+
+
