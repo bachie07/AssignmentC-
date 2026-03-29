@@ -2,6 +2,7 @@
 
 Card::Card(std::string suit, int value, CardType type)  : 
 
-    suit(suit), value(value), type(type)
+    suit(suit), value(value), _type(type)
 
 { }
+

@@ -27,7 +27,7 @@ class Card {
 public:
     std::string suit;
     int value;
-    CardType type;
+    CardType _type;
 
 
     Card(std::string suit, int value, CardType type);
@@ -36,8 +36,11 @@ public:
     virtual std::string str() const = 0;
 
 
-    virtual void play() = 0;
+    virtual void play(Game& game, Player& player) = 0;
 
+    virtual void willAddToBank(Game& game, Player& player) {}; 
+
+    const CardType& type() const; 
 
     virtual ~Card() {}
 
