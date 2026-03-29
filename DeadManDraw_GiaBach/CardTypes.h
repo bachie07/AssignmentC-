@@ -14,7 +14,7 @@ public:
 
 };
 
-class ChestCard : Card {
+class ChestCard : public Card {
 
     ChestCard(int value);
 
@@ -22,10 +22,13 @@ class ChestCard : Card {
 
     void play(Game& game, Player& player) override;
 
+    void willAddtoBank(Game& game, Player& player) {};
+
+
 
 };
 
-class KeyCard : Card {
+class KeyCard : public Card {
 
     KeyCard(int value);
     
@@ -33,12 +36,12 @@ class KeyCard : Card {
 
     void play(Game& game, Player& player) override; 
 
-
+    void willAddtoBank(Game& game, Player& player) {};
 
 };
 
 
-class SwordCard : Card {
+class SwordCard : public Card {
 
     SwordCard(int value); 
 
@@ -49,7 +52,7 @@ class SwordCard : Card {
 };
 
 
-class MapCard : Card {
+class MapCard : public Card {
 
     MapCard(int value);
 
@@ -61,7 +64,7 @@ class MapCard : Card {
 };
 
 
-class KrakenCard : Card {
+class KrakenCard : public Card {
     
     KrakenCard(int value);
 
@@ -73,7 +76,7 @@ class KrakenCard : Card {
 };
 
 
-class MermaidCard : Card {
+class MermaidCard : public Card {
 
     MermaidCard(int value);
 
@@ -87,7 +90,7 @@ class MermaidCard : Card {
 };
 
 
-class OracleCard : Card {
+class OracleCard : public Card {
 
     OracleCard(int value);
 
@@ -100,7 +103,7 @@ class OracleCard : Card {
 
 };
 
-class HookCard : Card {
+class HookCard : public Card {
 
     HookCard(int value);
 
