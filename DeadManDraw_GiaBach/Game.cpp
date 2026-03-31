@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "game_title.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "Player.h"
 
 
@@ -13,8 +15,9 @@ void Game::startGame() {
 
     initialisePlayer();
 
+    std::cout << "Welcome" << _players[0]->getName() << "to Dead Man Draw!" << std::endl;
+    
 }
-
 void Game::endGame() {
 
 }
@@ -31,17 +34,19 @@ void Game::shuffleDeck() {
 
 void Game::initialisePlayer() {
 
+    srand(std::time(0));
+
     std::string names[] = { "Sam", "Billy", "Jen", "Bob", "Sally", "Joe", "Sue", "Sasha", "Tina", "Marge" };
 
     std::string _player1Name = names[rand() % 10];
 
-    Player player1(_player1Name);
+    _players[0] = new Player(_player1Name);
 
     std::string _player2Name = names[rand() % 10];
 
-    Player player2(_player2Name);
+    _players[1] = new Player(_player2Name);
 
-    std::cout << player1.getName() << player2.getName() << std::endl;
+    std::cout << Game::_players[0]->getName() << _players[1]->getName() << std::endl;
 
 }
 
