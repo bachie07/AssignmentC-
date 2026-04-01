@@ -16,6 +16,10 @@ void Game::startGame() {
     initialisePlayer();
 
     std::cout << "Welcome" << _players[0]->getName() << "to Dead Man Draw!" << std::endl;
+
+    while
+
+
     
 }
 void Game::endGame() {
