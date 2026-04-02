@@ -67,6 +67,12 @@ void KeyCard::play(Game& game, Player& player) {
 
 }
 
+void KeyCard::willAddToBank(Game& game, Player& player) {
+
+	// implement later
+}
+
+
 
 
 //Sword Card

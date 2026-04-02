@@ -4,9 +4,9 @@
 #include <cstdlib>
 #include <ctime>
 #include "Player.h"
-#include <Card.h>
-
-
+#include "Card.h"
+#include <list>
+#include "CardTypes.h"
 
 Game::Game(){}
 
@@ -32,9 +32,10 @@ void Game::startGame() {
 
         std::cout << _players[0]->getName() << "'s Bank:" << _players[0]->getBank() << std::endl;
 
-        i++
+        i++;
 
     }
+
 
     
 }
@@ -46,8 +47,26 @@ void Game::endGame() {
 
 void Game::createDeck() {
 
+    for (int value = 2; value <= 7; value++) {
 
+        _deck.push_back(new CannonCard(value));
+        _deck.push_back(new ChestCard(value));
+        _deck.push_back(new KeyCard(value));
+        _deck.push_back(new SwordCard(value));
+        _deck.push_back(new HookCard(value));
+        _deck.push_back(new OracleCard(value));
+        _deck.push_back(new MapCard(value));
+        _deck.push_back(new KrakenCard(value));
 
+    }
+
+    for (int value = 4; value <= 9; value++){
+
+        _deck.push_back(new MermaidCard(value));
+
+    }
+
+    std::cout << _deck.size();
 
 }
 
