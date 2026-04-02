@@ -29,6 +29,8 @@ public:
     
     std::string getName() const; 
 
+    CardCollection getBank() const;
+
     virtual ~Player() {}
 
 

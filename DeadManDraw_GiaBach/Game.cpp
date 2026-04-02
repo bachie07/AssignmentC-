@@ -15,13 +15,14 @@ void Game::startGame() {
 
     initialisePlayer();
 
-    std::cout << "Welcome" << _players[0]->getName() << "to Dead Man Draw!" << std::endl;
+    std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
 
-    while
+    std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
 
 
     
 }
+
 void Game::endGame() {
 
 }
@@ -49,8 +50,6 @@ void Game::initialisePlayer() {
     std::string _player2Name = names[rand() % 10];
 
     _players[1] = new Player(_player2Name);
-
-    std::cout << Game::_players[0]->getName() << _players[1]->getName() << std::endl;
 
 }
 

@@ -39,6 +39,10 @@ std::string Player::getName() const {
 
 }
 
+CardCollection Player::getBank() const {
+    
+    return _Bank;
+}
 
 
 
