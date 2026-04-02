@@ -16,14 +16,14 @@ public:
 
 class ChestCard : public Card {
 
+
     ChestCard(int value);
 
     std::string str() const override;
 
     void play(Game& game, Player& player) override;
 
-    void willAddtoBank(Game& game, Player& player) {};
-
+    void willAddToBank(Game& game, Player& player) override;
 
 
 };
@@ -36,7 +36,7 @@ class KeyCard : public Card {
 
     void play(Game& game, Player& player) override; 
 
-    void willAddtoBank(Game& game, Player& player) {};
+    void willAddToBank(Game& game, Player& player) {};
 
 };
 
