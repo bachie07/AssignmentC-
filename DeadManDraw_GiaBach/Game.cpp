@@ -33,7 +33,6 @@ void Game::startGame() {
     std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
 
 
-
     
 }
 
@@ -95,6 +94,8 @@ void Game::initialisePlayer() {
 
 void Game::controlTurn() {
 
+    drawCard();
+
 
 }
 
@@ -109,7 +110,18 @@ Card* Game::drawCard() {
 
 bool Game::askDrawAgain() {
 
-    return false;
+    std::string drawAgain;
+
+    std::cout << "Draw Again? (y/n): ";
+
+    std::cin >> drawAgain;
+
+    if (drawAgain == "y") {
+        return true;
+    }
+    else {
+        return false;
+    }
 
 }
 
