@@ -16,6 +16,7 @@ public:
 
 class ChestCard : public Card {
 
+public:
 
     ChestCard(int value);
 
@@ -30,6 +31,8 @@ class ChestCard : public Card {
 
 class KeyCard : public Card {
 
+public:
+
     KeyCard(int value);
     
     std::string str() const override;
@@ -42,6 +45,7 @@ class KeyCard : public Card {
 
 
 class SwordCard : public Card {
+public:
 
     SwordCard(int value); 
 
@@ -53,6 +57,7 @@ class SwordCard : public Card {
 
 
 class MapCard : public Card {
+public:
 
     MapCard(int value);
 
@@ -65,6 +70,7 @@ class MapCard : public Card {
 
 
 class KrakenCard : public Card {
+public:
     
     KrakenCard(int value);
 
@@ -77,6 +83,7 @@ class KrakenCard : public Card {
 
 
 class MermaidCard : public Card {
+public:
 
     MermaidCard(int value);
 
@@ -91,6 +98,7 @@ class MermaidCard : public Card {
 
 
 class OracleCard : public Card {
+public:
 
     OracleCard(int value);
 
@@ -104,6 +112,7 @@ class OracleCard : public Card {
 };
 
 class HookCard : public Card {
+public:
 
     HookCard(int value);
 
