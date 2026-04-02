@@ -39,7 +39,7 @@ public:
 
     void play(Game& game, Player& player) override; 
 
-    void willAddToBank(Game& game, Player& player) {};
+    void willAddToBank(Game& game, Player& player) override;
 
 };
 

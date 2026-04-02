@@ -24,18 +24,11 @@ void Game::startGame() {
 
     _currentTurn = 1;
 
-    while (i < 5) {
+    initialisePlayer();
 
-        initialisePlayer();
+    createDeck();
 
-        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
-
-        std::cout << _players[0]->getName() << "'s Bank:" << _players[0]->getBank() << std::endl;
-
-        i++;
-
-    }
-
+    std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
 
     
 }
