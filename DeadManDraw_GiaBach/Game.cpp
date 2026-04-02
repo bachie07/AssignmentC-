@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Player.h"
+#include <Card.h>
 
 
 
@@ -11,14 +12,29 @@ Game::Game(){}
 
 void Game::startGame() {
 
-    std::cout << GAME_TITLE << std::endl;
 
-    initialisePlayer();
+    std::cout << GAME_TITLE << std::endl;
 
     std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
 
-    std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
 
+    int i = 0;
+
+    _currentRound = 1;
+
+    _currentTurn = 1;
+
+    while (i < 5) {
+
+        initialisePlayer();
+
+        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
+
+        std::cout << _players[0]->getName() << "'s Bank:" << _players[0]->getBank() << std::endl;
+
+        i++
+
+    }
 
     
 }
@@ -29,6 +45,8 @@ void Game::endGame() {
 
 
 void Game::createDeck() {
+
+
 
 
 }
