@@ -23,7 +23,9 @@ public:
 
     void moveCardToBank();
 
-    void print();
+    void printBank();
+
+    void printPlayArea();
 
     int getScore() const;
     
