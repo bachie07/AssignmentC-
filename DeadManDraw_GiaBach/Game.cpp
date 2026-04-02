@@ -7,6 +7,9 @@
 #include "Card.h"
 #include <list>
 #include "CardTypes.h"
+#include <algorithm>
+#include <random>
+
 
 Game::Game(){}
 
@@ -17,9 +20,6 @@ void Game::startGame() {
 
     std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
 
-
-    int i = 0;
-
     _currentRound = 1;
 
     _currentTurn = 1;
@@ -28,7 +28,11 @@ void Game::startGame() {
 
     createDeck();
 
+    shuffleDeck();
+
     std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
+
+
 
     
 }
@@ -65,6 +69,12 @@ void Game::createDeck() {
 
 void Game::shuffleDeck() {
 
+    std::random_device rd;
+
+    std::mt19937 g(rd());
+
+    std::shuffle(_deck.begin(), _deck.end(), g);
+
 }
 
 void Game::initialisePlayer() {
@@ -90,8 +100,11 @@ void Game::controlTurn() {
 
 Card* Game::drawCard() {
 
-    return nullptr;
+    Card* cardDrawn = _deck.front();
 
+    _deck.erase(_deck.begin());
+
+    return cardDrawn;
 }
 
 bool Game::askDrawAgain() {
