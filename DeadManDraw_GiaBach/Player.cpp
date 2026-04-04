@@ -120,10 +120,15 @@ int Player::getScore() const{
 }
 
 
-bool Player::addToPlayArea(Card* card) {
+void Player::addToPlayArea(Card* card) {
 
     _PlayArea.push_back(card);
 
+}
+
+void Player::clearPlayArea() {
+
+    _PlayArea.clear();
 }
 
 std::string Player::getName() const {

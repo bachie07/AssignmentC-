@@ -6,16 +6,7 @@ class Player {
 
 public:
 
-    std::string playerName; 
-
-    int score;
-
-    CardCollection _PlayArea;
-
-    CardCollection _Bank;
-
     Player(std::string name);
-
     
     bool playCard(Card* card, Game& game);
 
@@ -28,12 +19,30 @@ public:
     void printPlayArea();
 
     int getScore() const;
+
+    void addToPlayArea(Card* card);
+
+    void clearPlayArea();
     
     std::string getName() const; 
 
     CardCollection getBank() const;
 
     virtual ~Player() {}
+
+
+
+    
+
+private:
+
+    std::string playerName;
+
+    int score;
+
+    CardCollection _PlayArea;
+
+    CardCollection _Bank;
 
 
 };
