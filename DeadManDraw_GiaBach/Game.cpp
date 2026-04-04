@@ -23,12 +23,9 @@ void Game::startGame() {
 
     shuffleDeck();
 
-
     std::cout << GAME_TITLE << std::endl;
 
     std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
-
-
 
     initialisePlayer();
 
@@ -97,25 +94,45 @@ void Game::initialisePlayer() {
 
 void Game::controlTurn() {
 
-    Card* cardDrawn = drawCard(); // draw card
+    bool continueTurn = true;
 
-    _currentPlayer->_PlayArea.push_back(cardDrawn);
+    while (continueTurn) {
 
-    std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << std::endl;
+        Card* cardDrawn = drawCard(); // draw card
 
-    bool isBust = _currentPlayer->isBust(); // check bust
+        _currentPlayer->addToPlayArea(cardDrawn);
 
-    if (isBust == true) { // move to discard pile
-        _currentPlayer->_PlayArea.clear();
+        std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << std::endl;
+
+        bool isBust = _currentPlayer->isBust(); // check bust
+
+        if (isBust == true) { // move to discard pile
+
+            for (Card* card : _currentPlayer->getPlayArea()) { // add play area cards to discard pile
+                _discardPile.push_back(card);
+            }
+
+            _currentPlayer->clearPlayArea();
+        }
+
+        else {
+            cardDrawn->play(*this, *_currentPlayer); // 
+            askDrawAgain();
+            _currentPlayer->printPlayArea();
+
+            if (askDrawAgain() == false) {
+
+                _currentPlayer->moveCardToBank();
+                break;
+
+            }
+        }
+
+
+
+
     }
 
-    else {
-        cardDrawn->play(*this, *_currentPlayer); // 
-    }
-    
-    _currentPlayer->printPlayArea();
-
-    askDrawAgain();
 
 }
 
@@ -148,7 +165,11 @@ bool Game::askDrawAgain() {
 
 void Game::switchPlayer() {
 
+    _currentPlayer = _players[1];
+
 }
+
+
 
 Game::~Game(){}
 

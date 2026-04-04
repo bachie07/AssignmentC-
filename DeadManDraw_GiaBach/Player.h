@@ -18,15 +18,17 @@ public:
 
     void printPlayArea();
 
-    int getScore() const;
+    std::string getScore() const;
 
-    void addToPlayArea(Card* card);
+    void addToPlayArea(Card* card); // add to UML
 
-    void clearPlayArea();
+    void clearPlayArea(); // add to UML
     
     std::string getName() const; 
 
     CardCollection getBank() const;
+
+    CardCollection getPlayArea() const;
 
     virtual ~Player() {}
 
@@ -34,7 +36,7 @@ public:
 
     
 
-private:
+private: 
 
     std::string playerName;
 

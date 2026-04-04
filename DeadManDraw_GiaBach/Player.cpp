@@ -1,6 +1,8 @@
 #include "Player.h"
 #include <map>
 #include <numeric>
+#include <string>
+#include <iostream>
 
 Player::Player(std::string name) :
 
@@ -95,7 +97,7 @@ void Player::printPlayArea() {
 
 }
 
-int Player::getScore() const{
+std::string Player::getScore() const{
 
     std::map<CardType, int> scoreMap; 
 
@@ -116,7 +118,7 @@ int Player::getScore() const{
             return current_sum + pair.second;
         });
 
-    return total;
+    return "| Score: " + total;
 }
 
 
@@ -140,6 +142,11 @@ std::string Player::getName() const {
 CardCollection Player::getBank() const {
     
     return _Bank;
+}
+
+CardCollection Player::getPlayArea() const {
+
+    return _PlayArea;
 }
 
 
