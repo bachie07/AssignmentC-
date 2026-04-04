@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <map>
+#include <numeric>
 
 Player::Player(std::string name) :
 
@@ -16,10 +17,29 @@ bool Player::playCard(Card* card, Game& game) {
 
 bool Player::isBust() {
 
-    return true;
+    if (_PlayArea.empty()) {
+        return false;
+    }
+
+    Card* newCard = _PlayArea.back();
+
+    for (Card* card : _PlayArea) {
+
+        if (card->_type == newCard->_type && card->value != newCard->value) {
+
+            return true;
+
+        }
+    }
+
+    return false;
 }
 
 void Player::moveCardToBank() {
+
+    _Bank.insert(_Bank.end(), _PlayArea.begin(), _PlayArea.end());
+
+    _PlayArea.clear();
 
 }
 
@@ -78,8 +98,26 @@ void Player::printPlayArea() {
 
 int Player::getScore() const{
 
-    return score;
+    std::map<CardType, int> scoreMap; 
 
+    for (Card* card : _Bank) {
+
+        if (scoreMap.find(card->_type) == scoreMap.end()) {
+
+            scoreMap[card->_type] = card->value;
+        }
+        else if (card->value > scoreMap[card->_type]) {
+
+            scoreMap[card->_type] = card->value;
+        }
+    }
+
+    int total = std::accumulate(scoreMap.begin(), scoreMap.end(), 0,
+        [](int current_sum, const auto& pair) {
+            return current_sum + pair.second;
+        });
+
+    return total;
 }
 
 std::string Player::getName() const {

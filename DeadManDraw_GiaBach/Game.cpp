@@ -15,23 +15,31 @@ Game::Game(){}
 
 void Game::startGame() {
 
-
-    std::cout << GAME_TITLE << std::endl;
-
-    std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
-
     _currentRound = 1;
 
     _currentTurn = 1;
-
-    initialisePlayer();
 
     createDeck();
 
     shuffleDeck();
 
-    std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
 
+    std::cout << GAME_TITLE << std::endl;
+
+    std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
+
+
+    while (!_deck.empty()) {
+
+        initialisePlayer();
+
+        _currentPlayer = _players[0];
+
+        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
+
+        controlTurn();
+
+    }
 
     
 }
@@ -61,8 +69,6 @@ void Game::createDeck() {
         _deck.push_back(new MermaidCard(value));
 
     }
-
-    std::cout << _deck.size();
 
 }
 
@@ -94,8 +100,9 @@ void Game::initialisePlayer() {
 
 void Game::controlTurn() {
 
-    drawCard();
+    Card* cardDrawn = drawCard();
 
+    std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << std::endl;
 
 }
 
@@ -107,6 +114,7 @@ Card* Game::drawCard() {
 
     return cardDrawn;
 }
+
 
 bool Game::askDrawAgain() {
 
