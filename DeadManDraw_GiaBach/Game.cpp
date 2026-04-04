@@ -29,17 +29,14 @@ void Game::startGame() {
     std::cout << "Starting Dead Man's Draw++!\n" << std::endl;
 
 
-    while (!_deck.empty()) {
 
-        initialisePlayer();
+    initialisePlayer();
 
-        _currentPlayer = _players[0];
+    _currentPlayer = _players[0];
 
-        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
+    std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
 
-        controlTurn();
-
-    }
+    controlTurn();
 
     
 }
@@ -100,9 +97,25 @@ void Game::initialisePlayer() {
 
 void Game::controlTurn() {
 
-    Card* cardDrawn = drawCard();
+    Card* cardDrawn = drawCard(); // draw card
+
+    _currentPlayer->_PlayArea.push_back(cardDrawn);
 
     std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << std::endl;
+
+    bool isBust = _currentPlayer->isBust(); // check bust
+
+    if (isBust == true) { // move to discard pile
+        _currentPlayer->_PlayArea.clear();
+    }
+
+    else {
+        cardDrawn->play(*this, *_currentPlayer); // 
+    }
+    
+    _currentPlayer->printPlayArea();
+
+    askDrawAgain();
 
 }
 

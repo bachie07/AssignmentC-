@@ -31,7 +31,6 @@ bool Player::isBust() {
 
         }
     }
-
     return false;
 }
 
@@ -118,6 +117,13 @@ int Player::getScore() const{
         });
 
     return total;
+}
+
+
+bool Player::addToPlayArea(Card* card) {
+
+    _PlayArea.push_back(card);
+
 }
 
 std::string Player::getName() const {
