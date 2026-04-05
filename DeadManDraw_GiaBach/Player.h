@@ -18,11 +18,13 @@ public:
 
     void printPlayArea();
 
-    std::string getScore() const;
+    int getScore() const;
 
     void addToPlayArea(Card* card); // add to UML
 
     void clearPlayArea(); // add to UML
+
+    void printScore(); 
     
     std::string getName() const; 
 

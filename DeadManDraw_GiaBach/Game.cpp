@@ -31,11 +31,8 @@ void Game::startGame() {
 
     _currentPlayer = _players[0];
 
-    std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---" << std::endl;
-
     controlTurn();
 
-    
 }
 
 void Game::endGame() {
@@ -98,11 +95,19 @@ void Game::controlTurn() {
 
     while (continueTurn) {
 
+        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---\n" << std::endl;
+
+        std::cout << _currentPlayer->getName() << "'s turn.\n" << std::endl;
+
+        _currentPlayer->printBank();
+
+        _currentPlayer->printScore();
+
         Card* cardDrawn = drawCard(); // draw card
 
         _currentPlayer->addToPlayArea(cardDrawn);
 
-        std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << std::endl;
+        std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
 
         bool isBust = _currentPlayer->isBust(); // check bust
 
@@ -112,16 +117,20 @@ void Game::controlTurn() {
                 _discardPile.push_back(card);
             }
 
+            std::cout << "BUST! " << _currentPlayer->getName() << " losses all cards in play area" << std::endl;
+
             _currentPlayer->clearPlayArea();
             switchPlayer();
+            continueTurn = false;
+
         }
 
         else {
-            cardDrawn->play(*this, *_currentPlayer); // 
-            _currentPlayer->printPlayArea();
+            cardDrawn->play(*this, *_currentPlayer); // play card ability 
+            _currentPlayer->printPlayArea(); // print play area
             bool drawAgain = askDrawAgain();
 
-            if (drawAgain == false) {
+            if (drawAgain == false) { // if player doesnt play again
 
                 _currentPlayer->moveCardToBank();
                 _currentPlayer->printBank();

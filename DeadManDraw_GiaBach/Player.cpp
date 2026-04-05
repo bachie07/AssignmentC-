@@ -68,6 +68,8 @@ void Player::printBank() {
         std::cout << "\n";
     }
 
+    std::cout << "\n";
+
 }
 
 void Player::printPlayArea() {
@@ -92,12 +94,12 @@ void Player::printPlayArea() {
 
         }
         std::cout << "\n";
+
     }
-
-
+    std::cout << "\n";
 }
 
-std::string Player::getScore() const{
+int Player::getScore() const{
 
     std::map<CardType, int> scoreMap; 
 
@@ -118,9 +120,15 @@ std::string Player::getScore() const{
             return current_sum + pair.second;
         });
 
-    return "| Score: " + total;
+
+    return total;
 }
 
+void Player::printScore() {
+
+    std::cout << "| Score: " << getScore() << "\n" << std::endl;
+
+} 
 
 void Player::addToPlayArea(Card* card) {
 
