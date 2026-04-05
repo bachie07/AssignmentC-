@@ -113,26 +113,28 @@ void Game::controlTurn() {
             }
 
             _currentPlayer->clearPlayArea();
+            switchPlayer();
         }
 
         else {
             cardDrawn->play(*this, *_currentPlayer); // 
-            askDrawAgain();
             _currentPlayer->printPlayArea();
+            bool drawAgain = askDrawAgain();
 
-            if (askDrawAgain() == false) {
+            if (drawAgain == false) {
 
                 _currentPlayer->moveCardToBank();
+                _currentPlayer->printBank();
+                switchPlayer();
                 break;
 
             }
+            else {
+                continueTurn = true;
+            }
         }
 
-
-
-
     }
-
 
 }
 
