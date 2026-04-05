@@ -26,6 +26,8 @@ void CannonCard::play(Game& game, Player& player) {
 
 	std::map<int, Card*> displayMap;
 
+	CardCollection opponentBank = opponent->getBank();
+
 	int choice;
 
 	int counter = 1;
@@ -33,7 +35,8 @@ void CannonCard::play(Game& game, Player& player) {
 
 	std::cout << "Discard the top card of any suit from the other player's Bank to the Discard Pile" << "\n";
 
-	for (Card* card : opponent->getBank()) {
+	
+	for (Card* card : opponentBank) {
 
 		if (topCardMap.find(card->_type) == topCardMap.end()) {
 
@@ -49,6 +52,11 @@ void CannonCard::play(Game& game, Player& player) {
 
 	}
 
+	if (opponentBank.empty()) {
+		std::cout << "No cards in the other player's Bank. Continue Play. \n";
+		return;
+	}
+
 	for (const auto& cardDetail : topCardMap) { // display options to remove
 
 		displayMap[counter] = cardDetail.second;
@@ -62,7 +70,8 @@ void CannonCard::play(Game& game, Player& player) {
 
 	std::cin >> choice;
 
-	for (Card* card : opponent->getBank()) {
+
+	for (Card* card : opponentBank) {
 
 		if (card == displayMap[choice]) {
 
@@ -73,7 +82,6 @@ void CannonCard::play(Game& game, Player& player) {
 	}
 	
 	std::cout << displayMap[choice]->str() << "removed succesfully" << std::endl;
-
 
 }
 
@@ -152,7 +160,69 @@ std::string SwordCard::str() const {
 
 void SwordCard::play(Game& game, Player& player) {
 
-	//implement later
+	Player* opponent = game.getOpponent();
+
+	std::map<CardType, Card*> topCardMap;
+
+	std::map<int, Card*> displayMap;
+
+	CardCollection opponentBank = opponent->getBank();
+
+	int choice;
+
+	int counter = 1;
+
+
+	std::cout << "Steal the top card of any suit from the other player's Bank to your play Area" << "\n";
+
+
+	for (Card* card : opponentBank) {
+
+		if (topCardMap.find(card->_type) == topCardMap.end()) {
+
+			topCardMap[card->_type] = card;
+
+		}
+
+		else if (card->value > topCardMap[card->_type]->value) {
+
+			topCardMap[card->_type] = card;
+
+		}
+
+	}
+
+	if (opponentBank.empty()) {
+		std::cout << "No cards in the other player's Bank. Continue Play. \n";
+		return;
+	}
+
+	for (const auto& cardDetail : topCardMap) { // display options to remove
+
+		displayMap[counter] = cardDetail.second;
+
+		std::cout << "(" << counter << ") " << cardDetail.second->str() << "\n";
+
+		counter++;
+	}
+
+	std::cout << "Which card do you pick?: ";
+
+	std::cin >> choice;
+
+	for (Card* card : opponentBank) {
+
+		if (card == displayMap[choice]) {
+
+			opponent->removeFromBank(card);
+			player.addToPlayArea(card);
+			player.isBust();
+
+		}
+	}
+
+	std::cout << displayMap[choice]->str() << "added to succesfully" << std::endl;
+	
 }
 
 

@@ -30,7 +30,7 @@ public:
 
     Player* getOpponent(); // add uml
 
-    void addToDiscardPile(); // add uml 
+    void addToDiscardPile(Card* card); // add uml 
      
     ~Game();
 

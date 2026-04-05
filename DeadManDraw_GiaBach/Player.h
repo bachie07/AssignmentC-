@@ -28,12 +28,13 @@ public:
     
     std::string getName() const; 
 
-    const CardCollection& getBank() const;
+    const CardCollection& getBank() const; // add to UML
+
+    void removeFromBank(Card* card);
 
     CardCollection getPlayArea() const;
 
     virtual ~Player() {}
-
 
 
     

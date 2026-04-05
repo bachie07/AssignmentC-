@@ -203,10 +203,10 @@ void Game::switchPlayer() {
 
 }
 
-CardCollection Game::getDiscardPile() {
+void Game::addToDiscardPile(Card* card) {
 
-    return _discardPile;
-
+    _discardPile.push_back(card);
+    
 }
 
 Player* Game::getOpponent() {
@@ -222,7 +222,6 @@ Player* Game::getOpponent() {
     }
 
 }
-
 
 
 Game::~Game(){}
