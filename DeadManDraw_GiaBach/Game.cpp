@@ -203,6 +203,12 @@ void Game::switchPlayer() {
 
 }
 
+CardCollection Game::getDiscardPile() {
+
+    return _discardPile;
+
+}
+
 Player* Game::getOpponent() {
 
     if (_currentPlayer == _players[0]) {

@@ -28,7 +28,7 @@ public:
     
     std::string getName() const; 
 
-    CardCollection getBank() const;
+    const CardCollection& getBank() const;
 
     CardCollection getPlayArea() const;
 

@@ -29,6 +29,8 @@ public:
     void switchPlayer();
 
     Player* getOpponent(); // add uml
+
+    void addToDiscardPile(); // add uml 
      
     ~Game();
 

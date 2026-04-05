@@ -3,6 +3,7 @@
 #include <numeric>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 Player::Player(std::string name) :
 
@@ -147,9 +148,17 @@ std::string Player::getName() const {
 
 }
 
-CardCollection Player::getBank() const {
+const CardCollection& Player::getBank() const {
     
     return _Bank;
+
+}
+
+void Player::removeFromBank(Card* card) {
+
+    CardCollection& bank = _Bank;
+
+    bank.erase(std::remove(bank.begin(), bank.end(), card), bank.end());
 }
 
 CardCollection Player::getPlayArea() const {

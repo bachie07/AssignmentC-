@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "Game.h"
 #include <map>
+#include <vector>
+#include <algorithm>
 
 //CannonCard
 
@@ -22,30 +24,55 @@ void CannonCard::play(Game& game, Player& player) {
 
 	std::map<CardType, Card*> topCardMap;
 
+	std::map<int, Card*> displayMap;
+
+	int choice;
+
 	int counter = 1;
+
+
+	std::cout << "Discard the top card of any suit from the other player's Bank to the Discard Pile" << "\n";
 
 	for (Card* card : opponent->getBank()) {
 
 		if (topCardMap.find(card->_type) == topCardMap.end()) {
 
 			topCardMap[card->_type] = card;
+
 		}
+
 		else if (card->value > topCardMap[card->_type]->value) {
 
 			topCardMap[card->_type] = card;
+
 		}
 
 	}
 
-	for (const auto& cardDetail : topCardMap) {
+	for (const auto& cardDetail : topCardMap) { // display options to remove
+
+		displayMap[counter] = cardDetail.second;
 
 		std::cout << "(" << counter << ") " <<cardDetail.second->str() << "\n";
 
 		counter++;
 	}
 
+	std::cout << "Which card do you pick?: ";
 
+	std::cin >> choice;
 
+	for (Card* card : opponent->getBank()) {
+
+		if (card == displayMap[choice]) {
+
+			opponent->removeFromBank(card);
+			game.addToDiscardPile(card);
+
+		}
+	}
+	
+	std::cout << displayMap[choice]->str() << "removed succesfully" << std::endl;
 
 
 }
