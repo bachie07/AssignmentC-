@@ -31,12 +31,31 @@ void Game::startGame() {
 
     _currentPlayer = _players[0];
 
-    controlTurn();
+    while (!_deck.empty() && _currentTurn < 20) {
+
+        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---\n" << std::endl;
+
+        controlTurn();
+        _currentTurn++;
+        
+        if (_currentTurn % 2 == 1) {
+
+            _currentRound++;
+        }
+
+    }
+
+    endGame();
+
+    
+
 
 }
 
 void Game::endGame() {
 
+    std::cout << "Game ended, thanks for playing Dead Man's Draw!" << std::endl;
+         
 }
 
 
@@ -93,11 +112,9 @@ void Game::controlTurn() {
 
     bool continueTurn = true;
 
+    std::cout << _currentPlayer->getName() << "'s turn.\n" << std::endl;
+
     while (continueTurn) {
-
-        std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---\n" << std::endl;
-
-        std::cout << _currentPlayer->getName() << "'s turn.\n" << std::endl;
 
         _currentPlayer->printBank();
 
@@ -117,10 +134,10 @@ void Game::controlTurn() {
                 _discardPile.push_back(card);
             }
 
-            std::cout << "BUST! " << _currentPlayer->getName() << " losses all cards in play area" << std::endl;
+            std::cout << "BUST! " << _currentPlayer->getName() << " losses all cards in play area" << "\n" << std::endl;
 
-            _currentPlayer->clearPlayArea();
-            switchPlayer();
+            _currentPlayer->clearPlayArea(); // clear play area
+            switchPlayer(); //  switch player 
             continueTurn = false;
 
         }
@@ -134,6 +151,7 @@ void Game::controlTurn() {
 
                 _currentPlayer->moveCardToBank();
                 _currentPlayer->printBank();
+                _currentPlayer->printScore();
                 switchPlayer();
                 break;
 
@@ -149,9 +167,9 @@ void Game::controlTurn() {
 
 Card* Game::drawCard() {
 
-    Card* cardDrawn = _deck.front();
+    Card* cardDrawn = _deck.front(); // draw from front deck
 
-    _deck.erase(_deck.begin());
+    _deck.erase(_deck.begin()); // erase from deck
 
     return cardDrawn;
 }
@@ -176,7 +194,26 @@ bool Game::askDrawAgain() {
 
 void Game::switchPlayer() {
 
-    _currentPlayer = _players[1];
+    if (_currentPlayer = _players[0]) {
+        _currentPlayer = _players[1];
+    }
+    else {
+        _currentPlayer = _players[0];
+    }
+
+}
+
+Player* Game::getOpponent() {
+
+    if (_currentPlayer == _players[0]) {
+
+        return _players[1];
+
+    }
+
+    else {
+        return _players[0];
+    }
 
 }
 

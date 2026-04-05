@@ -1,5 +1,7 @@
 #include "CardTypes.h"
-
+#include "Player.h"
+#include "Game.h"
+#include <map>
 
 //CannonCard
 
@@ -16,10 +18,37 @@ std::string CannonCard::str() const {
 
 void CannonCard::play(Game& game, Player& player) {
 
-	// implement later
+	Player* opponent = game.getOpponent();
+
+	std::map<CardType, Card*> topCardMap;
+
+	int counter = 1;
+
+	for (Card* card : opponent->getBank()) {
+
+		if (topCardMap.find(card->_type) == topCardMap.end()) {
+
+			topCardMap[card->_type] = card;
+		}
+		else if (card->value > topCardMap[card->_type]->value) {
+
+			topCardMap[card->_type] = card;
+		}
+
+	}
+
+	for (const auto& cardDetail : topCardMap) {
+
+		std::cout << "(" << counter << ") " <<cardDetail.second->str() << "\n";
+
+		counter++;
+	}
+
+
+
+
 
 }
-
 
 //Chest Card
 
@@ -45,6 +74,9 @@ void ChestCard::willAddToBank(Game& game, Player& player) {
 
 	// implement later
 }
+
+
+
 
 
 //Key Card
@@ -160,8 +192,8 @@ std::string MermaidCard::str() const {
 }
 
 void MermaidCard::play(Game& game, Player& player) {
-
-	//implement later
+	 
+	std::cout << " No effect but Mermaids are worth more" << "\n" << std::endl;
 }
 
 

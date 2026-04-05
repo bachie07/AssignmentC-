@@ -6,22 +6,6 @@
 
 class Game {
 
-
-private: 
-
-    CardCollection _deck;
-
-    CardCollection _discardPile;
-
-    int _currentTurn;
-
-    int _currentRound;
-
-    Player* _currentPlayer;
-
-    Player* _players[2];
-
-
 public:
 
     Game();
@@ -44,6 +28,22 @@ public:
 
     void switchPlayer();
 
+    Player* getOpponent(); // add uml
+     
     ~Game();
+
+private:
+
+    CardCollection _deck;
+
+    CardCollection _discardPile;
+
+    int _currentTurn;
+
+    int _currentRound;
+
+    Player* _currentPlayer;
+
+    Player* _players[2];
 
 };
