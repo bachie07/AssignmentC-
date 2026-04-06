@@ -166,6 +166,11 @@ void Game::controlTurn() {
 
 }
 
+const CardCollection& Game::getDeck() const {
+    return _deck;
+
+}
+
 Card* Game::drawCard() {
 
     Card* cardDrawn = _deck.front(); // draw from front deck

@@ -30,6 +30,8 @@ public:
 
     Player* getOpponent(); // add uml
 
+    const CardCollection& getDeck() const;
+
     void addToDiscardPile(Card* card); // add uml 
      
     ~Game();
