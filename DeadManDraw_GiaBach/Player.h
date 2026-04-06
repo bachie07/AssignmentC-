@@ -12,7 +12,7 @@ public:
 
     bool isBust();
 
-    void moveCardToBank();
+    void moveCardToBank(Game& game, Player& player);
 
     void printBank();
 
@@ -30,9 +30,9 @@ public:
 
     const CardCollection& getBank() const; // add to UML
 
-    const CardCollection& getPlayArea() const;
-
     void removeFromBank(Card* card);
+
+    void addToBank(Card* card);
 
     CardCollection getPlayArea() const;
 

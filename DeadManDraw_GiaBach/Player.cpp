@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <CardTypes.h>
 
 Player::Player(std::string name) :
 
@@ -37,7 +38,25 @@ bool Player::isBust() {
     return false;
 }
 
-void Player::moveCardToBank() {
+void Player::moveCardToBank(Game& game, Player& player) {
+
+    bool hasChest = false;
+    bool hasKey = false;
+
+    for (Card* card : _PlayArea) {
+
+        if (card->_type == Chest) {
+            hasChest = true;
+        }
+        if (card->_type == Key) {
+            hasKey = true;
+        }
+
+        if (hasChest && hasKey) {
+            card->willAddToBank(game, player);
+        }
+
+    }
 
     _Bank.insert(_Bank.end(), _PlayArea.begin(), _PlayArea.end());
 
