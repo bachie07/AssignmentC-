@@ -231,6 +231,8 @@ void SwordCard::play(Game& game, Player& player) {
 
 				player.clearPlayArea(); // clear play area
 
+				return;
+
 			}
 			else { // if not bust
 				card->play(game, player); // play abilitiy
@@ -250,6 +252,7 @@ void SwordCard::play(Game& game, Player& player) {
 MapCard::MapCard(int value) :
 
 	Card("Map", value, Map) {
+
 }
 
 
@@ -263,7 +266,54 @@ std::string MapCard::str() const {
 
 void MapCard::play(Game& game, Player& player) {
 
-	//implement later
+	CardCollection& discardPile = game.getDiscardPile();
+	
+	int choice;
+
+	if (discardPile.empty()) {
+		std::cout << "No cards in the discard pile to pick from. Continue Turn\n";
+		return;
+	}
+
+	std::cout << "Draw 3 cards from the discard and pick one to add to the play area";
+		
+	for (int i = 0; i < 3 && !discardPile.empty(); i++) {
+
+		std::cout << "(" << i+1 << ") " << discardPile.at(i)->str() << "\n";
+
+	}
+
+	std::cout << "Which card do you pick: ";
+
+	std::cin >> choice;
+
+	while (choice > 3 || choice < 1) {
+
+		std::cout << "Which card do you pick: ";
+
+		std::cin >> choice;
+	}
+
+	Card* chosenCard = discardPile.at(choice - 1); // chosen card
+	player.addToPlayArea(discardPile.at(choice - 1));
+	discardPile.erase(discardPile.begin() + (choice - 1));
+
+
+	if (player.isBust()) {
+
+		for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
+			game.addToDiscardPile(card);
+		}
+
+		std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
+
+		player.clearPlayArea(); // clear play area
+		return;
+	}
+	else {
+		chosenCard->play(game, player); // play
+	}
+	
 }
 
 
@@ -329,7 +379,10 @@ std::string OracleCard::str() const {
 
 void OracleCard::play(Game& game, Player& player) {
 
-	//implement later
+	CardCollection deck = game.getDeck();
+
+	std::cout << "The Oracle sees a " << deck.front()->str() << "\n";
+
 }
 
 
@@ -404,6 +457,7 @@ void HookCard::play(Game& game, Player& player) {
 		if (displayMap[choice] == card) {
 
 			player.addToPlayArea(card);
+			player.removeFromBank(card);
 
 			if (player.isBust()) {
 

@@ -167,9 +167,16 @@ void Game::controlTurn() {
 }
 
 const CardCollection& Game::getDeck() const {
+
     return _deck;
 
 }
+
+CardCollection& Game::getDiscardPile() {
+
+    return _discardPile;
+}
+
 
 Card* Game::drawCard() {
 
