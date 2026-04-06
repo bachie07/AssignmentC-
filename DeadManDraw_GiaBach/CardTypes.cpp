@@ -22,9 +22,9 @@ void CannonCard::play(Game& game, Player& player) {
 
 	Player* opponent = game.getOpponent();
 
-	std::map<CardType, Card*> topCardMap;
+	std::map<CardType, Card*> topCardMap; // map storing highest card
 
-	std::map<int, Card*> displayMap;
+	std::map<int, Card*> displayMap; // map used to display options for users
 
 	CardCollection opponentBank = opponent->getBank();
 
@@ -36,32 +36,33 @@ void CannonCard::play(Game& game, Player& player) {
 	std::cout << "Discard the top card of any suit from the other player's Bank to the Discard Pile" << "\n";
 
 	
-	for (Card* card : opponentBank) {
-
-		if (topCardMap.find(card->_type) == topCardMap.end()) {
-
-			topCardMap[card->_type] = card;
-
-		}
-
-		else if (card->value > topCardMap[card->_type]->value) {
-
-			topCardMap[card->_type] = card;
-
-		}
-
-	}
-
-	if (opponentBank.empty()) {
+	if (opponentBank.empty()) { // return if empty
 		std::cout << "No cards in the other player's Bank. Continue Play. \n";
 		return;
 	}
 
+	for (Card* card : opponentBank) { // loop through bank 
+
+		if (topCardMap.find(card->_type) == topCardMap.end()) { // add if card doesnt exist
+
+			topCardMap[card->_type] = card;
+
+		}
+
+		else if (card->value > topCardMap[card->_type]->value) { // replace if card has higher value
+
+			topCardMap[card->_type] = card;
+
+		}
+
+	}
+
+
 	for (const auto& cardDetail : topCardMap) { // display options to remove
 
-		displayMap[counter] = cardDetail.second;
+		displayMap[counter] = cardDetail.second; // store card pointer in display map 
 
-		std::cout << "(" << counter << ") " <<cardDetail.second->str() << "\n";
+		std::cout << "(" << counter << ") " <<cardDetail.second->str() << "\n"; 
 
 		counter++;
 	}
@@ -73,7 +74,7 @@ void CannonCard::play(Game& game, Player& player) {
 
 	for (Card* card : opponentBank) {
 
-		if (card == displayMap[choice]) {
+		if (card == displayMap[choice]) { // remove if card in bank similar with card of choice
 
 			opponent->removeFromBank(card);
 			game.addToDiscardPile(card);
@@ -84,6 +85,9 @@ void CannonCard::play(Game& game, Player& player) {
 	std::cout << displayMap[choice]->str() << "removed succesfully" << std::endl;
 
 }
+
+
+
 
 //Chest Card
 
@@ -175,27 +179,27 @@ void SwordCard::play(Game& game, Player& player) {
 
 	std::cout << "Steal the top card of any suit from the other player's Bank to your play Area" << "\n";
 
-
-	for (Card* card : opponentBank) {
-
-		if (topCardMap.find(card->_type) == topCardMap.end()) {
-
-			topCardMap[card->_type] = card;
-
-		}
-
-		else if (card->value > topCardMap[card->_type]->value) {
-
-			topCardMap[card->_type] = card;
-
-		}
-
-	}
-
 	if (opponentBank.empty()) {
 		std::cout << "No cards in the other player's Bank. Continue Play. \n";
 		return;
 	}
+
+	for (Card* card : opponentBank) { // loop through bank
+
+		if (topCardMap.find(card->_type) == topCardMap.end()) { // add if doesnt exist
+
+			topCardMap[card->_type] = card;
+
+		}
+
+		else if (card->value > topCardMap[card->_type]->value) { // replace if card point is higher
+
+			topCardMap[card->_type] = card;
+
+		}
+
+	}
+
 
 	for (const auto& cardDetail : topCardMap) { // display options to remove
 
@@ -212,12 +216,12 @@ void SwordCard::play(Game& game, Player& player) {
 
 	for (Card* card : opponentBank) {
 
-		if (card == displayMap[choice]) {
+		if (card == displayMap[choice]) { // if card of choice in bank
 
-			opponent->removeFromBank(card);
-			player.addToPlayArea(card);
+			opponent->removeFromBank(card); // remove
+			player.addToPlayArea(card); // add to play area
 
-			if (player.isBust()) {
+			if (player.isBust()) { // if bust
 
 				for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
 					game.addToDiscardPile(card);
@@ -228,8 +232,8 @@ void SwordCard::play(Game& game, Player& player) {
 				player.clearPlayArea(); // clear play area
 
 			}
-			else {
-				card->play(game, player);
+			else { // if not bust
+				card->play(game, player); // play abilitiy
 				std::cout << displayMap[choice]->str() << "added succesfully" << std::endl;
 			}
 
@@ -348,7 +352,77 @@ std::string HookCard::str() const {
 
 void HookCard::play(Game& game, Player& player) {
 
-	//implement later
+	std::map<CardType, Card*> topCardMap;
+
+	std::map<int, Card*> displayMap;
+
+	CardCollection bank = player.getBank();
+	
+	int counter = 1;
+
+	int choice; 
+
+	std::cout << "Play the top card of any suit from the your Bank into your Play Area \n";
+
+	if (bank.empty()) {
+		std::cout << "Current player bank has no cards. Continue Play \n";
+		return;
+	}
+
+	for (Card* card : bank) {
+
+		if (topCardMap.find(card->_type) == topCardMap.end()) {
+
+			topCardMap[card->_type] = card;
+
+		}
+
+		else if (card->value > topCardMap[card->_type]->value) {
+
+			topCardMap[card->_type] = card;
+		}
+
+	}
+
+
+	for (const auto& cardDetail : topCardMap) {
+
+		displayMap[counter] = cardDetail.second;
+
+		std::cout << "(" << counter << ") " << cardDetail.second->str() << "\n";
+
+		counter++;
+
+	}
+
+	std::cout << "Which card do you pick?: ";
+
+	std::cin >> choice;
+
+	for (Card* card : bank) {
+
+		if (displayMap[choice] == card) {
+
+			player.addToPlayArea(card);
+
+			if (player.isBust()) {
+
+				for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
+					game.addToDiscardPile(card);
+				}
+
+				std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
+
+				player.clearPlayArea(); // clear play area
+
+			}
+			else {
+				card->play(game, player);
+			}
+
+		}
+
+	}
 
 }
 
