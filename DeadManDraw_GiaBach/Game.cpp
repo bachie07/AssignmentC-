@@ -135,11 +135,11 @@ void Game::controlTurn() {
 
     std::cout << _currentPlayer->getName() << "'s turn.\n" << std::endl;
 
+    _currentPlayer->printBank();
+
+    _currentPlayer->printScore();
+
     while (continueTurn) {
-
-        _currentPlayer->printBank();
-
-        _currentPlayer->printScore();
 
         Card* cardDrawn = drawCard(); // draw card
 
@@ -203,7 +203,7 @@ Card* Game::drawCard() {
 
     _deck.erase(_deck.begin()); // erase from deck
 
-    std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
+    std::cout << "\n" << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
 
     return cardDrawn;
 }
@@ -217,12 +217,12 @@ bool Game::askDrawAgain() {
 
     std::cin >> drawAgain;
 
-    if (drawAgain == "y") {
-        return true;
+    while (drawAgain != "y" && drawAgain != "n") {
+        std::cout << "Invalid input. Draw Again? (y/n): ";
+        std::cin >> drawAgain;
     }
-    else if (drawAgain == "n"){
-        return false;
-    }
+
+    return drawAgain == "y";
 
 }
 
