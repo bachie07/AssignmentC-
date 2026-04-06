@@ -126,8 +126,12 @@ void Game::initialisePlayer() {
 
     _players[0] = new Player(_player1Name);
 
-    std::string _player2Name = names[rand() % 10];
+    std::string _player2Name;
 
+    do {
+        _player2Name = names[rand() % 10];
+    } while (_player2Name == _player1Name);
+    
     _players[1] = new Player(_player2Name);
 
 }
@@ -146,11 +150,9 @@ void Game::controlTurn() {
 
         Card* cardDrawn = drawCard(); // draw card
 
-        _currentPlayer->addToPlayArea(cardDrawn);
-
         bool bust = _currentPlayer->playCard(cardDrawn, *this); // check bust
 
-        if (bust) { // move to discard pile
+        if (bust || _currentPlayer->isBust()) { // move to discard pile
 
             for (Card* card : _currentPlayer->getPlayArea()) { // add play area cards to discard pile
                 _discardPile.push_back(card);
@@ -167,20 +169,22 @@ void Game::controlTurn() {
         else {
             _currentPlayer->printPlayArea(); // print play area
             bool drawAgain = askDrawAgain();
+            
             if (!drawAgain) { // if player doesnt play again
 
-                _currentPlayer->moveCardToBank(*this, *_currentPlayer);
-                _currentPlayer->printBank();
-                _currentPlayer->printScore();
-                switchPlayer();
-                continueTurn = false;
-
+                 _currentPlayer->moveCardToBank(*this, *_currentPlayer);
+                 _currentPlayer->printBank();
+                 _currentPlayer->printScore();
+                 switchPlayer();
+                 continueTurn = false;
+            
             }
+          }
         }
 
-    }
+   }
 
-}
+
 
 const CardCollection& Game::getDeck() const {
 
@@ -255,7 +259,31 @@ Player* Game::getOpponent() {
 }
 
 
-Game::~Game(){}
+Game::~Game(){ // memory cleanup
+
+    for (Card* card : _deck) {
+
+        delete card;
+    }
+
+    _deck.clear();
+
+    for (Card* card : _discardPile) {
+        delete card;
+    }
+    _discardPile.clear();
+
+    delete _players[0];
+
+    delete _players[1];
+
+    _players[0] = nullptr;
+
+    _players[1] = nullptr;
+
+    _currentPlayer = nullptr;
+    
+}
 
 
 

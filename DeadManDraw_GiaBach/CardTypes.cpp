@@ -75,6 +75,11 @@ void CannonCard::play(Game& game, Player& player) {
 
 	std::cout << "\n";
 
+	while (choice < 1 || choice > counter - 1) {
+		std::cout << "Invalid choice. Pick again: ";
+		std::cin >> choice;
+	}
+
 
 	for (Card* card : opponentBank) {
 
@@ -282,32 +287,19 @@ void SwordCard::play(Game& game, Player& player) {
 
 	std::cout << "\n";
 
+	while (choice < 1 || choice > counter - 1) {
+		std::cout << "Invalid choice. Pick again: ";
+		std::cin >> choice;
+
+	}
+
 	for (Card* card : opponentBank) {
 
 		if (card == displayMap[choice]) { // if card of choice in bank
 
 			opponent->removeFromBank(card); // remove
 			player.addToPlayArea(card); // add to play area
-
-			if (player.isBust()) { // if bust
-
-				for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
-					game.addToDiscardPile(card);
-				}
-
-				std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
-
-				player.clearPlayArea(); // clear play area
-
-
-				return;
-
-			}
-
-			else { // if not bust
-				card->play(game, player); // play abilitiy
-				std::cout << "\n" << displayMap[choice]->str() << " added succesfully\n" << std::endl;
-			}
+			card->play(game, player);
 
 		}
 	}
@@ -340,6 +332,9 @@ void MapCard::play(Game& game, Player& player) {
 	
 	int choice;
 
+	int displayCount = std::min((int)discardPile.size(), 3);
+
+
 	if (discardPile.empty()) {
 		std::cout << "No cards in the discard pile to pick from. Continue Turn\n";
 		return;
@@ -347,7 +342,7 @@ void MapCard::play(Game& game, Player& player) {
 
 	std::cout << "Draw 3 cards from the discard and pick one to add to the play area\n";
 		
-	for (int i = 0; i < 3 && !discardPile.empty(); i++) {
+	for (int i = 0; i < displayCount && !discardPile.empty(); i++) {
 
 		std::cout << "(" << i+1 << ") " << discardPile.at(i)->str() << "\n";
 
@@ -361,7 +356,7 @@ void MapCard::play(Game& game, Player& player) {
 
 	std::cout << "\n";
 
-	while (choice > discardPile.size() || choice < 1) {
+	while (choice > displayCount || choice < 1) {
 
 		std::cout << "\n";
 
@@ -373,25 +368,11 @@ void MapCard::play(Game& game, Player& player) {
 	}
 
 	Card* chosenCard = discardPile.at(choice - 1); // chosen card
-	player.addToPlayArea(discardPile.at(choice - 1));
 	discardPile.erase(discardPile.begin() + (choice - 1));
+	player.addToPlayArea(chosenCard);
 
+	chosenCard->play(game, player);
 
-	if (player.isBust()) {
-
-		for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
-			game.addToDiscardPile(card);
-		}
-
-		std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
-
-		player.clearPlayArea(); // clear play area
-		return;
-	}
-	else {
-		chosenCard->play(game, player); // play
-	}
-	
 }
 
 
@@ -420,25 +401,16 @@ void KrakenCard::play(Game& game, Player& player) {
 		player.addToPlayArea(cardDrawn);
 
 		if (player.isBust()) {
-
-			for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
-				game.addToDiscardPile(card);
-			}
-
-			std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
-
-			player.clearPlayArea(); // clear play area
 			return;
 
 		}
 
-		else {
-			cardDrawn->play(game, player);
+		cardDrawn->play(game, player);
+
 		}
-
-	}
-
 }
+
+
 
 
 
@@ -558,28 +530,22 @@ void HookCard::play(Game& game, Player& player) {
 
 	std::cout << "\n";
 
+	while (choice < 1 || choice > counter - 1) {
+		std::cout << "Invalid choice. Pick again: ";
+		std::cin >> choice;
+
+	}
+
 	for (Card* card : bank) {
 
 		if (displayMap[choice] == card) {
 
 			player.removeFromBank(card);
 			player.addToPlayArea(card);
-		
 
-			if (player.isBust()) {
+			card->play(game, player);
 
-				for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
-					game.addToDiscardPile(card);
-				}
-
-				std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
-
-				player.clearPlayArea(); // clear play area
-
-			}
-			else {
-				card->play(game, player);
-			}
+			return;
 
 		}
 

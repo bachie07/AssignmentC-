@@ -204,14 +204,8 @@ CardCollection Player::getPlayArea() const {
 
 Player::~Player() { // memory cleanup
 
-    for (Card* card : _Bank) {
-        delete card;
-    }
-    _Bank.clear();
 
-    for (Card* card : _PlayArea) {
-        delete card;
-    }
+    _Bank.clear();
 
     _PlayArea.clear();
 

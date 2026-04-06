@@ -8,4 +8,6 @@ int main() {
 
     game.startGame();
 
+    return 0;
+
 }

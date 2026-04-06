@@ -36,12 +36,10 @@ public:
 
     CardCollection getPlayArea() const;
 
-    virtual ~Player() {}
+    ~Player();
 
 
 
-
-    
 
 private: 
 
