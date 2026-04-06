@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-#include <CardTypes.h>
+#include "CardTypes.h"
 
 Player::Player(std::string name) :
 
@@ -15,6 +15,7 @@ Player::Player(std::string name) :
 bool Player::playCard(Card* card, Game& game) {
 
     return true;
+
 
 }
 
@@ -42,20 +43,21 @@ void Player::moveCardToBank(Game& game, Player& player) {
 
     bool hasChest = false;
     bool hasKey = false;
+    Card* chestOrKeyCard = nullptr;
 
     for (Card* card : _PlayArea) {
 
         if (card->_type == Chest) {
-            hasChest = true;
+            hasChest = true; chestOrKeyCard = card;
         }
         if (card->_type == Key) {
-            hasKey = true;
+            hasKey = true; chestOrKeyCard = card;
         }
 
-        if (hasChest && hasKey) {
-            card->willAddToBank(game, player);
-        }
+    }
 
+    if (hasChest && hasKey) {
+        chestOrKeyCard->willAddToBank(game, player);
     }
 
     _Bank.insert(_Bank.end(), _PlayArea.begin(), _PlayArea.end());

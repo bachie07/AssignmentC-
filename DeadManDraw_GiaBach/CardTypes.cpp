@@ -67,9 +67,13 @@ void CannonCard::play(Game& game, Player& player) {
 		counter++;
 	}
 
+	std::cout << "\n";
+
 	std::cout << "Which card do you pick?: ";
 
 	std::cin >> choice;
+
+	std::cout << "\n";
 
 
 	for (Card* card : opponentBank) {
@@ -82,7 +86,7 @@ void CannonCard::play(Game& game, Player& player) {
 		}
 	}
 	
-	std::cout << displayMap[choice]->str() << "removed succesfully" << std::endl;
+	std::cout << displayMap[choice]->str() << " removed succesfully\n" << std::endl;
 
 }
 
@@ -105,13 +109,11 @@ std::string ChestCard::str() const {
 
 void ChestCard::play(Game& game, Player& player) {
 
-	std::cout << "  No immediate effect. If banked with a key, draw as many bonus cards from the Discard pile as you moved to your Bank";
+	std::cout << "  No immediate effect. If banked with a key, draw as many bonus cards from the Discard pile as you moved to your Bank\n";
 
 }
 
 void ChestCard::willAddToBank(Game& game, Player& player) {
-
-
 
 	for (Card* card : player.getPlayArea()) {
 
@@ -139,7 +141,7 @@ void ChestCard::willAddToBank(Game& game, Player& player) {
 				discardPile.erase(discardPile.begin());
 
 			}
-			std::cout << "to your bank";
+			std::cout << "to your bank\n";
 
 			return;
 		}
@@ -167,16 +169,45 @@ std::string KeyCard::str() const {
 
 void KeyCard::play(Game& game, Player& player) {
 
-	std::cout << "No immediate effect. If banked with a chest, draw as many bonus cards from the Discard pile as you moved into your Bank";
+	std::cout << "No immediate effect. If banked with a chest, draw as many bonus cards from the Discard pile as you moved into your Bank\n";
 
 }
 
 void KeyCard::willAddToBank(Game& game, Player& player) {
 
-	// implement later
+	for (Card* card : player.getPlayArea()) {
+
+		if (card->_type == Chest) {
+
+			int playAreatotalCards = player.getPlayArea().size();
+
+			CardCollection& discardPile = game.getDiscardPile();
+
+			if (discardPile.empty()) {
+				std::cout << "No cards in discard pile. Play continues\n";
+				return;
+			}
+
+			std::cout << "Added ";
+
+			for (int i = 0; i < playAreatotalCards && !discardPile.empty(); i++) {
+
+				Card* bonusCard = discardPile.front();
+
+				player.addToBank(bonusCard);
+
+				std::cout << bonusCard->str() << ", ";
+
+				discardPile.erase(discardPile.begin());
+
+			}
+			std::cout << "to your bank\n";
+
+			return;
+		}
+
+	}
 }
-
-
 
 
 //Sword Card
@@ -243,9 +274,13 @@ void SwordCard::play(Game& game, Player& player) {
 		counter++;
 	}
 
+	std::cout << "\n";
+
 	std::cout << "Which card do you pick?: ";
 
 	std::cin >> choice;
+
+	std::cout << "\n";
 
 	for (Card* card : opponentBank) {
 
@@ -264,12 +299,14 @@ void SwordCard::play(Game& game, Player& player) {
 
 				player.clearPlayArea(); // clear play area
 
+
 				return;
 
 			}
+
 			else { // if not bust
 				card->play(game, player); // play abilitiy
-				std::cout << displayMap[choice]->str() << "added succesfully" << std::endl;
+				std::cout << "\n" << displayMap[choice]->str() << " added succesfully\n" << std::endl;
 			}
 
 		}
@@ -308,7 +345,7 @@ void MapCard::play(Game& game, Player& player) {
 		return;
 	}
 
-	std::cout << "Draw 3 cards from the discard and pick one to add to the play area";
+	std::cout << "Draw 3 cards from the discard and pick one to add to the play area\n";
 		
 	for (int i = 0; i < 3 && !discardPile.empty(); i++) {
 
@@ -316,15 +353,23 @@ void MapCard::play(Game& game, Player& player) {
 
 	}
 
+	std::cout << "\n";
+
 	std::cout << "Which card do you pick: ";
 
 	std::cin >> choice;
 
-	while (choice > 3 || choice < 1) {
+	std::cout << "\n";
+
+	while (choice > discardPile.size() || choice < 1) {
+
+		std::cout << "\n";
 
 		std::cout << "Which card do you pick: ";
 
 		std::cin >> choice;
+		
+		std::cout << "\n";
 	}
 
 	Card* chosenCard = discardPile.at(choice - 1); // chosen card
@@ -505,16 +550,21 @@ void HookCard::play(Game& game, Player& player) {
 
 	}
 
-	std::cout << "Which card do you pick?: ";
+	std::cout << "\n";
+
+	std::cout << "\nWhich card do you pick?: ";
 
 	std::cin >> choice;
+
+	std::cout << "\n";
 
 	for (Card* card : bank) {
 
 		if (displayMap[choice] == card) {
 
-			player.addToPlayArea(card);
 			player.removeFromBank(card);
+			player.addToPlayArea(card);
+		
 
 			if (player.isBust()) {
 

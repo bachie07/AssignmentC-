@@ -54,7 +54,28 @@ void Game::startGame() {
 
 void Game::endGame() {
 
-    std::cout << "Game ended, thanks for playing Dead Man's Draw!" << std::endl;
+    std::cout << "------- Game over -------" << "\n" << std::endl;
+
+    std::cout << _players[0]->getName() << "'s Bank: " << "\n" <<std::endl;
+
+    _players[0]->printBank();
+    _players[0]->printScore();
+
+    std::cout << _players[1]->getName() << "'s Bank: " << "\n" << std::endl;
+
+    _players[1]->printBank();
+    _players[1]->printScore();
+
+    if (_players[0]->getScore() > _players[1]->getScore()) {
+        std::cout << _players[0]->getName() << " wins";
+    }
+    else if (_players[0]->getScore() == _players[1]->getScore()) {
+        std::cout << "It's a draw!";
+    }
+    else {
+        std::cout << _players[1]->getName() << " wins";
+
+    }
          
 }
 
@@ -124,8 +145,6 @@ void Game::controlTurn() {
 
         _currentPlayer->addToPlayArea(cardDrawn);
 
-        std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
-
         bool isBust = _currentPlayer->isBust(); // check bust
 
         if (isBust == true) { // move to discard pile
@@ -149,7 +168,7 @@ void Game::controlTurn() {
 
             if (drawAgain == false) { // if player doesnt play again
 
-                _currentPlayer->moveCardToBank();
+                _currentPlayer->moveCardToBank(*this, *_currentPlayer);
                 _currentPlayer->printBank();
                 _currentPlayer->printScore();
                 switchPlayer();
@@ -183,6 +202,8 @@ Card* Game::drawCard() {
     Card* cardDrawn = _deck.front(); // draw from front deck
 
     _deck.erase(_deck.begin()); // erase from deck
+
+    std::cout << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
 
     return cardDrawn;
 }
