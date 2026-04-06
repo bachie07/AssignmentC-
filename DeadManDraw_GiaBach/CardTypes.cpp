@@ -216,12 +216,25 @@ void SwordCard::play(Game& game, Player& player) {
 
 			opponent->removeFromBank(card);
 			player.addToPlayArea(card);
-			player.isBust();
+
+			if (player.isBust()) {
+
+				for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
+					game.addToDiscardPile(card);
+				}
+
+				std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
+
+				player.clearPlayArea(); // clear play area
+
+			}
+			else {
+				card->play(game, player);
+				std::cout << displayMap[choice]->str() << "added succesfully" << std::endl;
+			}
 
 		}
 	}
-
-	std::cout << displayMap[choice]->str() << "added to succesfully" << std::endl;
 	
 }
 

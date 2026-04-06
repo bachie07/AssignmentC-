@@ -153,9 +153,10 @@ void Game::controlTurn() {
                 _currentPlayer->printBank();
                 _currentPlayer->printScore();
                 switchPlayer();
-                break;
+                continueTurn = false;
 
             }
+
             else {
                 continueTurn = true;
             }
@@ -186,7 +187,7 @@ bool Game::askDrawAgain() {
     if (drawAgain == "y") {
         return true;
     }
-    else {
+    else if (drawAgain == "n"){
         return false;
     }
 
@@ -194,13 +195,12 @@ bool Game::askDrawAgain() {
 
 void Game::switchPlayer() {
 
-    if (_currentPlayer = _players[0]) {
+    if (_currentPlayer == _players[0]) {
         _currentPlayer = _players[1];
     }
-    else {
+    else if (_currentPlayer == _players[1]){
         _currentPlayer = _players[0];
     }
-
 }
 
 void Game::addToDiscardPile(Card* card) {
