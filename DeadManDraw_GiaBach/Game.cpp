@@ -11,7 +11,10 @@
 #include <random>
 
 
-Game::Game(){}
+Game::Game() : _currentPlayer(nullptr), _currentTurn(1), _currentRound(1) {
+    _players[0] = nullptr;
+    _players[1] = nullptr;
+}
 
 void Game::startGame() {
 
@@ -145,9 +148,9 @@ void Game::controlTurn() {
 
         _currentPlayer->addToPlayArea(cardDrawn);
 
-        bool isBust = _currentPlayer->isBust(); // check bust
+        bool bust = _currentPlayer->playCard(cardDrawn, *this); // check bust
 
-        if (isBust == true) { // move to discard pile
+        if (bust) { // move to discard pile
 
             for (Card* card : _currentPlayer->getPlayArea()) { // add play area cards to discard pile
                 _discardPile.push_back(card);
@@ -162,11 +165,9 @@ void Game::controlTurn() {
         }
 
         else {
-            cardDrawn->play(*this, *_currentPlayer); // play card ability 
             _currentPlayer->printPlayArea(); // print play area
             bool drawAgain = askDrawAgain();
-
-            if (drawAgain == false) { // if player doesnt play again
+            if (!drawAgain) { // if player doesnt play again
 
                 _currentPlayer->moveCardToBank(*this, *_currentPlayer);
                 _currentPlayer->printBank();
@@ -174,10 +175,6 @@ void Game::controlTurn() {
                 switchPlayer();
                 continueTurn = false;
 
-            }
-
-            else {
-                continueTurn = true;
             }
         }
 
@@ -241,6 +238,7 @@ void Game::addToDiscardPile(Card* card) {
     _discardPile.push_back(card);
     
 }
+
 
 Player* Game::getOpponent() {
 

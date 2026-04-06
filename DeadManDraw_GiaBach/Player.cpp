@@ -5,17 +5,24 @@
 #include <iostream>
 #include <algorithm>
 #include "CardTypes.h"
+#include "Game.h"
 
 Player::Player(std::string name) :
 
-    playerName(name) {}
+    playerName(name), score(0) {}
 
 
 
 bool Player::playCard(Card* card, Game& game) {
 
-    return true;
+    addToPlayArea(card);
 
+    if (isBust()) {
+        return true;
+    }
+
+    card->play(game, *this);
+    return false;
 
 }
 
@@ -195,6 +202,20 @@ CardCollection Player::getPlayArea() const {
 }
 
 
+Player::~Player() { // memory cleanup
+
+    for (Card* card : _Bank) {
+        delete card;
+    }
+    _Bank.clear();
+
+    for (Card* card : _PlayArea) {
+        delete card;
+    }
+
+    _PlayArea.clear();
+
+}
 
 
 
