@@ -30,11 +30,15 @@ public:
 
     const CardCollection& getBank() const; // add to UML
 
+    const CardCollection& getPlayArea() const;
+
     void removeFromBank(Card* card);
 
     CardCollection getPlayArea() const;
 
     virtual ~Player() {}
+
+
 
 
     

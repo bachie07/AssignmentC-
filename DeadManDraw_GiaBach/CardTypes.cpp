@@ -105,13 +105,46 @@ std::string ChestCard::str() const {
 
 void ChestCard::play(Game& game, Player& player) {
 
-	// implement later
+	std::cout << "  No immediate effect. If banked with a key, draw as many bonus cards from the Discard pile as you moved to your Bank";
 
 }
 
 void ChestCard::willAddToBank(Game& game, Player& player) {
 
-	// implement later
+
+
+	for (Card* card : player.getPlayArea()) {
+
+		if (card->_type == Key) {
+
+			int playAreatotalCards = player.getPlayArea().size();
+			
+			CardCollection& discardPile = game.getDiscardPile();
+
+			if (discardPile.empty()) {
+				std::cout << "No cards in discard pile. Play continues\n";
+				return;
+			}
+
+			std::cout << "Added ";
+
+			for (int i = 0; i < playAreatotalCards && !discardPile.empty(); i++) {
+
+				Card* bonusCard = discardPile.front();
+
+				player.addToBank(bonusCard);
+
+				std::cout << bonusCard->str() << ", ";
+
+				discardPile.erase(discardPile.begin());
+
+			}
+			std::cout << "to your bank";
+
+			return;
+		}
+
+	}
 }
 
 
@@ -134,7 +167,7 @@ std::string KeyCard::str() const {
 
 void KeyCard::play(Game& game, Player& player) {
 
-	// implement later
+	std::cout << "No immediate effect. If banked with a chest, draw as many bonus cards from the Discard pile as you moved into your Bank";
 
 }
 
@@ -335,7 +368,31 @@ std::string KrakenCard::str() const {
 
 void KrakenCard::play(Game& game, Player& player) {
 
-	//implement later
+	for (int i = 0; i < 3 && !game.getDeck().empty(); i++) {
+
+		Card* cardDrawn = game.drawCard();
+
+		player.addToPlayArea(cardDrawn);
+
+		if (player.isBust()) {
+
+			for (Card* card : player.getPlayArea()) { // add play area cards to discard pile
+				game.addToDiscardPile(card);
+			}
+
+			std::cout << "BUST! " << player.getName() << " losses all cards in play area" << "\n" << std::endl;
+
+			player.clearPlayArea(); // clear play area
+			return;
+
+		}
+
+		else {
+			cardDrawn->play(game, player);
+		}
+
+	}
+
 }
 
 

@@ -161,6 +161,13 @@ void Player::removeFromBank(Card* card) {
     bank.erase(std::remove(bank.begin(), bank.end(), card), bank.end());
 }
 
+void Player::addToBank(Card* card) {
+
+    CardCollection& bank = _Bank;
+    bank.insert(bank.begin(), card);
+
+}
+
 CardCollection Player::getPlayArea() const {
 
     return _PlayArea;
