@@ -150,6 +150,8 @@ void Game::controlTurn() {
 
         Card* cardDrawn = drawCard(); // draw card
 
+        std::cout << "\n" << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
+
         bool bust = _currentPlayer->playCard(cardDrawn, *this); // check bust
 
         if (bust || _currentPlayer->isBust()) { // move to discard pile
@@ -203,8 +205,6 @@ Card* Game::drawCard() {
     Card* cardDrawn = _deck.front(); // draw from front deck
 
     _deck.erase(_deck.begin()); // erase from deck
-
-    std::cout << "\n" << _currentPlayer->getName() << " draws a " << cardDrawn->str() << "\n" << std::endl;
 
     return cardDrawn;
 }

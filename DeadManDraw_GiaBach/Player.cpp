@@ -33,17 +33,15 @@ bool Player::isBust() {
         return false;
     }
 
-    Card* newCard = _PlayArea.back();
-
-    for (Card* card : _PlayArea) {
-
-        if (card->_type == newCard->_type && card->value != newCard->value) {
-
-            return true;
-
+    for (int i = 0; i < _PlayArea.size(); i++) {
+        for (int j = i + 1; j < _PlayArea.size(); j++) {
+            if (_PlayArea[i]->_type == _PlayArea[j]->_type) {
+                return true;
+            }
         }
     }
     return false;
+
 }
 
 void Player::moveCardToBank(Game& game, Player& player) {

@@ -80,7 +80,6 @@ void CannonCard::play(Game& game, Player& player) {
 		std::cin >> choice;
 	}
 
-
 	for (Card* card : opponentBank) {
 
 		if (card == displayMap[choice]) { // remove if card in bank similar with card of choice
@@ -249,7 +248,7 @@ void SwordCard::play(Game& game, Player& player) {
 	std::cout << "Steal the top card of any suit from the other player's Bank to your play Area" << "\n";
 
 	if (opponentBank.empty()) {
-		std::cout << "No cards in the other player's Bank. Continue Play. \n";
+		std::cout << "No cards in the other player's Bank. Continue Play.\n";
 		return;
 	}
 
@@ -292,6 +291,7 @@ void SwordCard::play(Game& game, Player& player) {
 		std::cin >> choice;
 
 	}
+	std::cout << player.getName() << "draws a " << displayMap[choice]->str() <<"\n";
 
 	for (Card* card : opponentBank) {
 
@@ -368,6 +368,9 @@ void MapCard::play(Game& game, Player& player) {
 	}
 
 	Card* chosenCard = discardPile.at(choice - 1); // chosen card
+
+	std::cout << player.getName() << "draws a " << chosenCard->str() << "\n";
+
 	discardPile.erase(discardPile.begin() + (choice - 1));
 	player.addToPlayArea(chosenCard);
 
@@ -397,6 +400,8 @@ void KrakenCard::play(Game& game, Player& player) {
 	for (int i = 0; i < 3 && !game.getDeck().empty(); i++) {
 
 		Card* cardDrawn = game.drawCard();
+
+		std::cout << player.getName() << " draws a " << cardDrawn->str() << "\n";
 
 		player.addToPlayArea(cardDrawn);
 
@@ -535,6 +540,9 @@ void HookCard::play(Game& game, Player& player) {
 		std::cin >> choice;
 
 	}
+
+	std::cout << player.getName() << "draws a " << displayMap[choice]->str() << "\n";
+
 
 	for (Card* card : bank) {
 
