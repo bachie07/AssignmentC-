@@ -11,7 +11,7 @@
 #include <random>
 
 
-Game::Game() : _currentPlayer(nullptr), _currentTurn(1), _currentRound(1) {
+Game::Game() : _currentPlayer(nullptr), _currentTurn(1), _currentRound(1) { // initialise constructor
     _players[0] = nullptr;
     _players[1] = nullptr;
 }
@@ -34,28 +34,28 @@ void Game::startGame() {
 
     _currentPlayer = _players[0];
 
-    while (!_deck.empty() && _currentTurn < 20) {
+    while (!_deck.empty() && _currentTurn < 20) { // condition to stop game 
 
         std::cout << "--- Round " << _currentRound << ", Turn " << _currentTurn << " ---\n" << std::endl;
 
-        controlTurn();
+        controlTurn(); // call control turn
         _currentTurn++;
         
-        if (_currentTurn % 2 == 1) {
+        if (_currentTurn % 2 == 1) { // if turn is odd then next round is there ( turn 3 = round 2, turn 5 = round 3,..)
 
             _currentRound++;
         }
 
     }
 
-    endGame();
+    endGame(); // call endGame() if loop exit 
 
     
 
 
 }
 
-void Game::endGame() {
+void Game::endGame() { // display Bank and compare score
 
     std::cout << "------- Game over -------" << "\n" << std::endl;
 
@@ -85,7 +85,7 @@ void Game::endGame() {
 
 void Game::createDeck() {
 
-    for (int value = 2; value <= 7; value++) {
+    for (int value = 2; value <= 7; value++) { // create all cards with value 2-7
 
         _deck.push_back(new CannonCard(value));
         _deck.push_back(new ChestCard(value));
@@ -98,7 +98,7 @@ void Game::createDeck() {
 
     }
 
-    for (int value = 4; value <= 9; value++){
+    for (int value = 4; value <= 9; value++){ // Mermaid Only
 
         _deck.push_back(new MermaidCard(value));
 
@@ -106,7 +106,7 @@ void Game::createDeck() {
 
 }
 
-void Game::shuffleDeck() {
+void Game::shuffleDeck() { // shuffle deck, this is given 
 
     std::random_device rd;
 
@@ -116,7 +116,7 @@ void Game::shuffleDeck() {
 
 }
 
-void Game::initialisePlayer() {
+void Game::initialisePlayer() { // select random player names for each
 
     srand(std::time(0));
 
@@ -128,7 +128,7 @@ void Game::initialisePlayer() {
 
     std::string _player2Name;
 
-    do {
+    do { // handle if player name are similar
         _player2Name = names[rand() % 10];
     } while (_player2Name == _player1Name);
     
@@ -136,7 +136,7 @@ void Game::initialisePlayer() {
 
 }
 
-void Game::controlTurn() {
+void Game::controlTurn() { // control turn loop
 
     bool continueTurn = true;
 
@@ -227,7 +227,7 @@ bool Game::askDrawAgain() {
 
 }
 
-void Game::switchPlayer() {
+void Game::switchPlayer() { // switch player 
 
     if (_currentPlayer == _players[0]) {
         _currentPlayer = _players[1];

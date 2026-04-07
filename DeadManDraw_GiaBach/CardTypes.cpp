@@ -5,7 +5,9 @@
 #include <vector>
 #include <algorithm>
 
-//CannonCard
+//=================================
+// CANNON CARD
+//=================================
 
 CannonCard::CannonCard(int value) :
 
@@ -97,7 +99,9 @@ void CannonCard::play(Game& game, Player& player) {
 
 
 
-//Chest Card
+//=================================
+// CHEST CARD
+//=================================
 
 
 ChestCard::ChestCard(int value) :
@@ -117,15 +121,15 @@ void ChestCard::play(Game& game, Player& player) {
 
 }
 
-void ChestCard::willAddToBank(Game& game, Player& player) {
+void ChestCard::willAddToBank(Game& game, Player& player) { // will add to bank method (called before movetoBank)
 
 	for (Card* card : player.getPlayArea()) {
 
-		if (card->_type == Key) {
+		if (card->_type == Key) { // if found key
 
-			int playAreatotalCards = player.getPlayArea().size();
+			int playAreatotalCards = player.getPlayArea().size(); // get size play area
 			
-			CardCollection& discardPile = game.getDiscardPile();
+			CardCollection& discardPile = game.getDiscardPile(); // get discard pile
 
 			if (discardPile.empty()) {
 				std::cout << "No cards in discard pile. Play continues\n";
@@ -134,15 +138,15 @@ void ChestCard::willAddToBank(Game& game, Player& player) {
 
 			std::cout << "Added ";
 
-			for (int i = 0; i < playAreatotalCards && !discardPile.empty(); i++) {
+			for (int i = 0; i < playAreatotalCards && !discardPile.empty(); i++) { // add same amount of cards exisiting in play area from discard pile
 
-				Card* bonusCard = discardPile.front();
+				Card* bonusCard = discardPile.front(); // get front of discard pile 
 
-				player.addToBank(bonusCard);
+				player.addToBank(bonusCard); // add to bank
 
-				std::cout << bonusCard->str() << ", ";
+				std::cout << bonusCard->str() << ", "; 
 
-				discardPile.erase(discardPile.begin());
+				discardPile.erase(discardPile.begin()); // erase from discard pile
 
 			}
 			std::cout << "to your bank\n";
@@ -157,7 +161,9 @@ void ChestCard::willAddToBank(Game& game, Player& player) {
 
 
 
-//Key Card
+//=================================
+// Key Card
+//=================================
 
 
 KeyCard::KeyCard(int value) :
@@ -177,7 +183,7 @@ void KeyCard::play(Game& game, Player& player) {
 
 }
 
-void KeyCard::willAddToBank(Game& game, Player& player) {
+void KeyCard::willAddToBank(Game& game, Player& player) { // similar process repeated for key
 
 	for (Card* card : player.getPlayArea()) {
 
@@ -214,7 +220,12 @@ void KeyCard::willAddToBank(Game& game, Player& player) {
 }
 
 
-//Sword Card
+
+
+//=================================
+// Sword Card
+//=================================
+
 
 
 SwordCard::SwordCard(int value) : 
@@ -234,11 +245,11 @@ void SwordCard::play(Game& game, Player& player) {
 
 	Player* opponent = game.getOpponent();
 
-	std::map<CardType, Card*> topCardMap;
+	std::map<CardType, Card*> topCardMap; // map storing highest card with type
 
-	std::map<int, Card*> displayMap;
-
-	CardCollection opponentBank = opponent->getBank();
+	std::map<int, Card*> displayMap; // map used to display cards available
+	 
+	CardCollection opponentBank = opponent->getBank(); // store opponent bank
 
 	int choice;
 
@@ -291,7 +302,7 @@ void SwordCard::play(Game& game, Player& player) {
 		std::cin >> choice;
 
 	}
-	std::cout << player.getName() << "draws a " << displayMap[choice]->str() <<"\n";
+	std::cout << player.getName() << " draws a " << displayMap[choice]->str() <<"\n";
 
 	for (Card* card : opponentBank) {
 
@@ -308,7 +319,11 @@ void SwordCard::play(Game& game, Player& player) {
 
 
 
-//Map Card
+
+//=================================
+// Map Card
+//=================================
+
 
 
 MapCard::MapCard(int value) :
@@ -332,17 +347,17 @@ void MapCard::play(Game& game, Player& player) {
 	
 	int choice;
 
-	int displayCount = std::min((int)discardPile.size(), 3);
+	int displayCount = std::min((int)discardPile.size(), 3); 
 
 
-	if (discardPile.empty()) {
+	if (discardPile.empty()) { // check if not empty
 		std::cout << "No cards in the discard pile to pick from. Continue Turn\n";
 		return;
 	}
 
 	std::cout << "Draw 3 cards from the discard and pick one to add to the play area\n";
 		
-	for (int i = 0; i < displayCount && !discardPile.empty(); i++) {
+	for (int i = 0; i < displayCount && !discardPile.empty(); i++) { // display card available
 
 		std::cout << "(" << i+1 << ") " << discardPile.at(i)->str() << "\n";
 
@@ -356,7 +371,7 @@ void MapCard::play(Game& game, Player& player) {
 
 	std::cout << "\n";
 
-	while (choice > displayCount || choice < 1) {
+	while (choice > displayCount || choice < 1) { // edge cases handling input
 
 		std::cout << "\n";
 
@@ -369,21 +384,26 @@ void MapCard::play(Game& game, Player& player) {
 
 	Card* chosenCard = discardPile.at(choice - 1); // chosen card
 
-	std::cout << player.getName() << "draws a " << chosenCard->str() << "\n";
+	std::cout << player.getName() << " draws a " << chosenCard->str() << "\n"; 
 
-	discardPile.erase(discardPile.begin() + (choice - 1));
-	player.addToPlayArea(chosenCard);
+	discardPile.erase(discardPile.begin() + (choice - 1)); // erase from pile
+	player.addToPlayArea(chosenCard); // add to play area
 
-	chosenCard->play(game, player);
+	chosenCard->play(game, player); // play card
 
 }
 
 
-//Kraken
+
+//=================================
+// Kraken Card
+//=================================
+
 
 KrakenCard::KrakenCard(int value) :
 
 	Card("Kraken", value, Kraken) {
+
 }
 
 
@@ -397,7 +417,7 @@ std::string KrakenCard::str() const {
 
 void KrakenCard::play(Game& game, Player& player) {
 
-	for (int i = 0; i < 3 && !game.getDeck().empty(); i++) {
+	for (int i = 0; i < 3 && !game.getDeck().empty(); i++) { // draw three cards from deck and play
 
 		Card* cardDrawn = game.drawCard();
 
@@ -419,7 +439,11 @@ void KrakenCard::play(Game& game, Player& player) {
 
 
 
-//Mermaid
+
+//=================================
+// Mermaid Card
+//=================================
+
 
 MermaidCard::MermaidCard(int value) :
 
@@ -440,7 +464,11 @@ void MermaidCard::play(Game& game, Player& player) {
 }
 
 
-//Oracle
+
+//=================================
+// Oracle Card
+//=================================
+
 
 OracleCard::OracleCard(int value) :
 
@@ -460,13 +488,17 @@ void OracleCard::play(Game& game, Player& player) {
 
 	CardCollection deck = game.getDeck();
 
-	std::cout << "The Oracle sees a " << deck.front()->str() << "\n";
+	std::cout << "The Oracle sees a " << deck.front()->str() << "\n"; // peek at front of deck
 
 }
 
 
 
-//Hook 
+
+//=================================
+// Hook Card
+//=================================
+
 
 HookCard::HookCard(int value) :
 
@@ -482,9 +514,9 @@ std::string HookCard::str() const {
 
 }
 
-void HookCard::play(Game& game, Player& player) {
+void HookCard::play(Game& game, Player& player) { 
 
-	std::map<CardType, Card*> topCardMap;
+	std::map<CardType, Card*> topCardMap; 
 
 	std::map<int, Card*> displayMap;
 
@@ -501,15 +533,15 @@ void HookCard::play(Game& game, Player& player) {
 		return;
 	}
 
-	for (Card* card : bank) {
+	for (Card* card : bank) { // loop through bank
 
-		if (topCardMap.find(card->_type) == topCardMap.end()) {
+		if (topCardMap.find(card->_type) == topCardMap.end()) { // add if doesnt exist 
 
 			topCardMap[card->_type] = card;
 
 		}
 
-		else if (card->value > topCardMap[card->_type]->value) {
+		else if (card->value > topCardMap[card->_type]->value) { // replace if value is higher 
 
 			topCardMap[card->_type] = card;
 		}
@@ -517,10 +549,10 @@ void HookCard::play(Game& game, Player& player) {
 	}
 
 
-	for (const auto& cardDetail : topCardMap) {
+	for (const auto& cardDetail : topCardMap) { // loop through map to display
 
-		displayMap[counter] = cardDetail.second;
-
+		displayMap[counter] = cardDetail.second; // add card in displayMap 
+		 
 		std::cout << "(" << counter << ") " << cardDetail.second->str() << "\n";
 
 		counter++;
@@ -541,14 +573,14 @@ void HookCard::play(Game& game, Player& player) {
 
 	}
 
-	std::cout << player.getName() << "draws a " << displayMap[choice]->str() << "\n";
+	std::cout << player.getName() << " draws a " << displayMap[choice]->str() << "\n"; // this is where displayMap display the choice, since map doesnt support indexing
 
 
-	for (Card* card : bank) {
+	for (Card* card : bank) { // if found card chosen by player 
 
 		if (displayMap[choice] == card) {
 
-			player.removeFromBank(card);
+			player.removeFromBank(card); // remove
 			player.addToPlayArea(card);
 
 			card->play(game, player);
